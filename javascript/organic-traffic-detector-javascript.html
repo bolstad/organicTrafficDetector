@@ -1,0 +1,54 @@
+<html>
+ <head> 
+  <title>Detect organic traffic via javascript</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ </head>
+ <body>
+ 
+<h1>Detect organic google traffic via javascript </h1>
+
+<p>The method is simple, if both these conditions is met: </p>
+
+<ul>
+  <li>The users referer come from a url that contain '.google.'</li>
+  <li>The gclid-query parameter (used by Adwords auto tagging) is NOT set</li>
+</ul>
+
+<p>- then we can be pretty sure that the user is comming from an organic google search and act upon it.
+  In this example we are adding a great offer into the content of the div with id 'dynamicOfferBox' below. If the user is not 
+  identifed as a organic user the div remains empty. </p>
+   
+<div id="dynamicOfferBox"></div>
+ 
+<script>
+ 
+  // Parse URL Queries - http://www.kevinleary.net/jquery-parse-url/
+  function url_query( query ) {
+      query = query.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var expr = "[\\?&]"+query+"=([^&#]*)";
+      var regex = new RegExp( expr );
+      var results = regex.exec( window.location.href );
+      if ( results !== null ) {
+          return results[1];
+      } else {
+          return false;
+      }
+  }
+ 
+  var ourRef = document.referrer;
+  var ourPattern = /\.google\./; 
+  var url_param = url_query('gclid');
+ 
+  $( document ).ready(function() {
+      if (ourRef.match(ourPattern) && !url_param ) 
+      {
+        //  alert("hello organic google user " + ourRef);
+        document.getElementById("dynamicOfferBox").innerHTML = "Great offer for you, my friend!";
+      }
+ 
+  });
+ 
+</script>
+ 
+ </body>
+</html>
